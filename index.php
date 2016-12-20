@@ -1,6 +1,5 @@
 <?php 
 require 'inc/bootstrap.php';
-
 // Récupération de la liste des VM autorisées (dans base mysql)
 
 
