@@ -22,10 +22,11 @@ if($auth->userIsValid()){
 	die();
 }
 include 'partials/header.php';
+//********************************************************************************************
 //App::debug($auth->getUserinfo());
 //$ADC = new myADClient('http://mongin-08928-test02.cramif.cnamts.fr/adws/adws.php?wsdl');
 //App::debug('UserInfos: ' . $ADC->getUserLastName('MONGIN-08928'));
-
+//********************************************************************************************
 ?>
 <center>
 <div id="loader">
