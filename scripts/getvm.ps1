@@ -28,7 +28,7 @@ Param (
 
 try{
 	add-pssnapin VMware.VimAutomation.Core -EA silentlycontinue
-	$vc = connect-VIServer "55.171.1.48" -user "cnamts\c417501-tachad" -password "Ie1fdlouest" -NotDefault -wa 0 -EA silentlycontinue
+	$vc = connect-VIServer "x.x.x.x" -user "user" -password "pass" -NotDefault -wa 0 -EA silentlycontinue
 	$vmNameList = $vmName.split(",") | %{$_.trim()}
 	foreach ($v in $vmNameList)
 	{

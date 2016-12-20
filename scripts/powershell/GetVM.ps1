@@ -29,7 +29,7 @@ Param (
 		$serverUser=$env:defaultUser, 
 	
 	[string]	
-		$serverAddress="vcenter.cramif.cnamts.fr", 
+		$serverAddress="vcenter.local", 
 	
 	[string]	
 		$serverPassword=$env:defaultPassword
