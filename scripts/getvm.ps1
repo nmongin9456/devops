@@ -30,17 +30,23 @@ try{
 		$vms = get-vm -Server $vc -Name $v -EA silentlycontinue
 		foreach ($vm in $vms)
 		{
+			$ip = $vm.guest.ipaddress|?{$_ -match "55."}
 			write-host "<vm>"
 			write-host ("<vcenter_user>" + $vc.user + "</vcenter_user>")
 			write-host ("<vm_id>" + $vm.id + "</vm_id>")
 			write-host ("<name>" + $vm.name + "</name>")
+			write-host ("<ip>" + $ip + "</ip>")
 			write-host ("<powerstate>" + $vm.powerstate + "</powerstate>")
 			write-host "</vm>"
 		}
 	}
-	sleep 10
-}catch{
-	write-host "erreur"
+	#sleep 10
+}catch [Exception] {
+	#$m = $_.Exception.GetType().FullName
+	#$mm = $_.Exception.Message
+	#write-host "erreur"
+	#write-host "$m"
+	#write-host "$mm"
 	[Environment]::exit("1")
 	
 }
