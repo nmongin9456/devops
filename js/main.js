@@ -35,24 +35,27 @@ $.ajax({
 
         // Initialisation des Actions sur les VM pour tous les bouton ayant la classe 'actionVM' et n'ayant pas la classe 'disabled'
         $('.actionsVM:not(.disabled)').click(function(e){
-            //e.preventDefault();
             var $this = $(this);
+			$(this).blur()
             var $vm = $this.data('vm');
             var $ligne = $this.data('ligne');
             var $action = $this.data('action');
-            //var $csrf = $this.data('csrf');
           
             if(window.location.pathname != '/'){
-                $url = '/' + window.location.pathname.split('/')[1] + '/lib/axGetVMInfo.php';
+                $url = '/' + window.location.pathname.split('/')[1] + '/axGetVMInfo.php';
             }else{
-                $url = '/lib/axGetVMInfo.php';
+                $url = '/axGetVMInfo.php';
             }
             console.log($url);
             console.log($vm);
-            //console.log($csrf);
             console.log($action);
             console.log($ligne);
             
+			// cache la page et montre le loader
+			$div.fadeOut(400, function(){
+							$loader.fadeIn(400);
+						});
+			
             $.ajax({
                 url:            $url,
                 method:         "POST",
@@ -60,16 +63,16 @@ $.ajax({
                     action:     $action,
                     ligne:      $ligne,
                     vm:         $vm
-                    //csrf:       $csrf
                 },
                 dataType: "xml"
             }).fail(function(data, textStatus, jqXHR){
                 console.log(textStatus);
-            })
-            
-            /*
-            $r.done(function(data, textStatus, jqXHR){
-               /* 
+            }).done(function(data, textStatus, jqXHR){
+				// cache le loader et montre les resultats de ajax
+				$('#loader').fadeOut(400, function(){
+							$div.fadeIn(400);
+						});
+				
                 var $returnCode = ($('xml>returnCode', data).text());
                 var $vm = ($('xml>result>vm>name', data).text());
                 var $ligne = ($('xml>ligne', data).text());
@@ -90,8 +93,7 @@ $.ajax({
                     }
                 }
                 
-            });*/
-            
+            });
         });
     });
 });

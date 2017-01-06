@@ -1,6 +1,6 @@
 <?php
 //$auth = 0;
-//require 'tools.php'; 
+include '/lib/tools.php'; 
 /*
 $_POST['action']="StartVM";
 $_POST['vm']="toto";
@@ -11,11 +11,9 @@ if(isset($_POST["action"])){
 	$action = $_POST["action"];
 	if(isset($_POST["vm"])){
 		$vm = $_POST["vm"];
-		if(isset($_POST["csrf"])){
-			$csrf = $_POST["csrf"];
-			$ligne = $_POST["ligne"];
-			switch ($action) {
-			  case "StartVM":
+		$ligne = $_POST["ligne"];
+		switch ($action) {
+			  case "ShutdownVM":
 			  	/*
 		        $xmloutput = "<xml>";
 		        $psPath = realpath('../scripts/powershell/');
@@ -32,17 +30,17 @@ if(isset($_POST["action"])){
 				/
 				//////////////////////////////////////////////////////////
 				*/
-				$xmloutput = "<xml><result><customizedOutput>[2016-12-02 16:18:10] Success - connect to server vcenter.cramif.cnamts.fr</customizedOutput><customizedOutput>[2016-12-02 16:18:10] Info - server is of product line: VPX</customizedOutput><vm><name>S4175010208928 - MONGIN Nicolas - CRAMIF</name><powerstate>PoweredOn</powerstate></vm></result><returnCode>4488</returnCode><ligne>".$ligne."</ligne></xml>";
+				$xmloutput = "<xml><result><customizedOutput>[2016-12-02 16:18:10] Success - connect to server vcenter.cramif.cnamts.fr</customizedOutput><customizedOutput>[2016-12-02 16:18:10] Info - server is of product line: VPX</customizedOutput><vm><name>S4175010208928 - MONGIN Nicolas - CRAMIF</name><powerstate>PoweredOff</powerstate></vm></result><returnCode>4488</returnCode><ligne>".$ligne."</ligne></xml>";
 
 				/*
 				//////////////////////////////////////////////////////////
 				*/
 				$ret = simplexml_load_string($xmloutput);
 				//echo"<pre>";
-        	    print_r ($ret);
+				sleep(1);
+        	    print_r ($ret->asXML());
         	    //echo"</pre>";
 				break;
-			}
 		}
 	}
 }

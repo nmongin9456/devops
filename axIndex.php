@@ -1,14 +1,15 @@
 <?php
 $auth = 0;
 require 'inc/bootstrap.php'; 
-//include 'partials/header.php';
+include 'lib/tools.php';
+
 $auth = new Auth();
 if($auth->userIsValid()){
 	$VMList = new collection($auth->getVM());
 	if(isset($_POST["action"])){
 		switch ($_POST["action"]) {
 		  case "GetVM":
-	    	/*
+	    	
 	    	$pshParams = "";
 	    	foreach($VMList as $key=>$value){
 	        	$pshParams .= $value['name'].",";
@@ -16,9 +17,10 @@ if($auth->userIsValid()){
 	        $pshParams = rtrim($pshParams, ',');
 	        $ajaxParams = '[' . $VMList->extract('name')->join(',') . ']';
 	        $xmloutput = "<xml>";
-	        $psPath = realpath('../scripts/powershell/');
+	        $psPath = realpath('scripts/');
 		  	chdir($psPath);
-		  	$cmd = "set runFromWeb=true & powershell .\\GetVM.ps1 '".$pshParams."'";
+		  	//$cmd = "set runFromWeb=true & powershell .\\GetVM.ps1 '".$pshParams."'";
+			$cmd = "powershell .\\GetVM.ps1 '".$pshParams."'";
 	        //callCmd($cmd);
 	        $xmloutput .= "</xml>";
 			/*
@@ -30,7 +32,8 @@ if($auth->userIsValid()){
 			*/
 
 			//$xmloutput = "<xml><result><vm><name>S41750100008928 - MONGIN Nicolas CRAMIF</name><powerstate>PoweredOn</powerstate></vm><vm><name>S41750100008928 - MONGIN Nicolas CNAMTS</name><powerstate>PoweredOff</powerstate></vm></result></xml>";
-			$xmloutput = "<xml><result><vm><name>S41750100108928 - MONGIN Nicolas - CNAMTS</name><powerstate>PoweredOff</powerstate></vm><vm><name>S4175010208928 - MONGIN Nicolas - CRAMIF</name><powerstate>PoweredOn</powerstate></vm></result></xml>";
+			$xmloutput = "<xml><result><vm><name>S41750100108928 - MONGIN Nicolas - CNAMTS</name><powerstate>PoweredOn</powerstate></vm></result></xml>";
+			//"c:\windows\syswow64\windowspowershell\v1.0\powershell.exe" -file "e:\web\devops\scripts\getvm.ps1" "S41750100108928 - MONGIN Nicolas - CNAMTS"
 
 			/*
 			//////////////////////////////////////////////////////////
@@ -42,8 +45,22 @@ if($auth->userIsValid()){
 			break;
 		}
 	}
-	else{
-		die("");
+	else{	/*
+			print_r("erreur die");
+			$xmloutput = "<xml>";
+	        $psPath = realpath('scripts/');
+		  	chdir($psPath);
+		  	//$cmd = "set runFromWeb=true & powershell .\\GetVM.ps1 '".$pshParams."'";
+			$cmd = "powershell .\\GetVM.ps1 'S41750100108928 - MONGIN Nicolas - CNAMTS'";
+	        callCmd($cmd);
+	        $xmloutput .= "</xml>";
+			$xml = simplexml_load_string($xmloutput);
+			$VMList = $xml->result->vm;
+			print_r("<pre>");
+			print_r($VMList);
+			print_r("</pre>");
+			*/
+			die("");
 	}
 }
 ?>

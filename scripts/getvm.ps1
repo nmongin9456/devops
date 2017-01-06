@@ -16,19 +16,14 @@
 
 Param (
 	[string]
-		$vmName
-	
+		$vmName,
+	[string]	
+		$VIServer=$env:defaultVIServer
 )
-
-#foreach ($paramKey in $psboundparameters.keys) {
-#	$oldValue = $psboundparameters.item($paramKey)
-#	$newValue = [system.web.httputility]::urldecode("$oldValue")
-#	set-variable -name $paramKey -value $newValue
-#}
 
 try{
 	add-pssnapin VMware.VimAutomation.Core -EA silentlycontinue
-	$vc = connect-VIServer "x.x.x.x" -user "user" -password "pass" -NotDefault -wa 0 -EA silentlycontinue
+	$vc = connect-VIServer -Server $VIServer -wa 0 -EA silentlycontinue
 	$vmNameList = $vmName.split(",") | %{$_.trim()}
 	foreach ($v in $vmNameList)
 	{
@@ -36,12 +31,16 @@ try{
 		foreach ($vm in $vms)
 		{
 			write-host "<vm>"
+			write-host ("<vcenter_user>" + $vc.user + "</vcenter_user>")
 			write-host ("<vm_id>" + $vm.id + "</vm_id>")
 			write-host ("<name>" + $vm.name + "</name>")
 			write-host ("<powerstate>" + $vm.powerstate + "</powerstate>")
 			write-host "</vm>"
 		}
 	}
+	sleep 10
 }catch{
+	write-host "erreur"
 	[Environment]::exit("1")
+	
 }
