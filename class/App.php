@@ -6,8 +6,8 @@ class App{
 
 	static function getDatabase(){
 		if (!self::$db){
-			//self::$db = new Database('root', 'azertyuiop', 'gvm');
-			self::$db = new Database('root', 'Cramif2010', 'gvm', 'w417501tinf03.cramif.cnamts.fr');
+			self::$db = new Database('root', 'azertyuiop', 'gvm');
+			//self::$db = new Database('root', 'Cramif2010', 'gvm', 'w417501tinf03.cramif.cnamts.fr');
 		}
 		return self::$db;
 	}
