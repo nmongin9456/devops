@@ -23,6 +23,7 @@ if($auth->userIsValid()){
 			$cmd = "powershell .\\GetVM.ps1 '".$pshParams."'";
 	        //callCmd($cmd);
 	        $xmloutput .= "</xml>";
+			
 			/*
 			//////////////////////////////////////////////////////////
 			/
