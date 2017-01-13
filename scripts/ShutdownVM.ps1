@@ -31,13 +31,22 @@ try{
 	$vc = connect-VIServer -Server $VIServer -wa 0 -EA silentlycontinue
 	
 	#Récupération du status de la VM à arrêter
-	$vm = get-vm -Server $vc -Name $v -EA silentlycontinue
+	$vm = get-vm -Server $vc -Name $vmName -EA silentlycontinue
+	
+	#Si la VM est déja arrêtee, on sort
+	if ($vm.PowerState -eq "PoweredOff") {
+		write-host "<vm>"
+		write-host ("<name>$vmName</name>")
+		write-host ("<powerstate>PoweredOff</powerstate>")
+		write-host "</vm>"
+		[Environment]::exit("0")
+	}
 	
 	#Récupération de l'adresse IP de la VM à arrêter
 	$ip = $vm.guest.ipaddress|?{$_ -match "55."}
 	
 	#Guest Shutdown de la VM
-	$vm | Shutdown-VMGuest -Server $vc -EA silentlycontinue
+	$vm | Stop-VMGuest -Server $vc -Confirm:$false -EA silentlycontinue
 	
 	#Boucle d'attente de non réponse au ping de la VM à arrêter
 	$timeout = new-timespan -seconds $timeoutValue
@@ -45,7 +54,7 @@ try{
 	$VMStopped = $False
 	
 	while ($sw.elapsed -lt $timeout){
-		if (not(test-connection -ComputerName $ip -bufferSize 8 -Count 1 -quiet)) {
+		if (-not(test-connection -ComputerName $ip -bufferSize 8 -Count 1 -quiet)) {
 			$VMStopped = $True
 			break
 		}
@@ -62,12 +71,13 @@ try{
 	} Else {
 		throw "Arret de la VM impossible"
 	}
+	[Environment]::exit("0")
 }catch [Exception] {
-	$m = $_.Exception.GetType().FullName
+	#$m = $_.Exception.GetType().FullName
 	$mm = $_.Exception.Message
-	write-host "erreur"
-	write-host "$m"
+	#write-host "erreur"
+	#write-host "$m"
 	write-host "$mm"
-	#[Environment]::exit("1")
+	[Environment]::exit("1")
 	
 }

@@ -40,7 +40,7 @@ include 'partials/header.php';
 </div>
 <div id="ajaxParams" class="hidden"><?= $ajaxParams ?></div>
 <div id="ajaxResult"></div>
-<div id="test"> 
+<div id="test" class="hidden"> 
 	<pre>
 	<?php print_r($_SESSION); ?>
 	</pre>

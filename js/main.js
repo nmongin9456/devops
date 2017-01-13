@@ -62,11 +62,19 @@ $.ajax({
                 data: {
                     action:     $action,
                     ligne:      $ligne,
-                    vm:         $vm
+                    vm:         $vm,
+                    timeout:    120000
                 },
                 dataType: "xml"
-            }).fail(function(data, textStatus, jqXHR){
-                console.log(textStatus);
+            }).fail(function(request, status, err) {
+                if (status == "timeout") {
+                    // timeout -> reload the page and try again
+                    console.log("timeout");
+                    window.location.reload();
+                } else {
+                    // another error occured  
+                    alert("error: " + request + status + err);
+                }
             }).done(function(data, textStatus, jqXHR){
 				// cache le loader et montre les resultats de ajax
 				$('#loader').fadeOut(400, function(){

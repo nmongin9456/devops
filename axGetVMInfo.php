@@ -1,5 +1,5 @@
 <?php
-include '/lib/tools.php'; 
+include 'lib/tools.php'; 
 
 if(isset($_POST["action"])){
 	$action = $_POST["action"];
@@ -29,11 +29,17 @@ if(isset($_POST["action"])){
 				/*
 				//////////////////////////////////////////////////////////
 				*/
-				$ret = simplexml_load_string($xmloutput);
+
+				
+				//$ret = simplexml_load_string($xmloutput);
+				//sleep(1);
+        	    //print_r ($ret->asXML());
+
 				//echo"<pre>";
-				sleep(1);
-        	    print_r ($ret->asXML());
+				//print_r($cmd);
+				print_r($xmloutput);
         	    //echo"</pre>";
+
 				break;
 		}
 	}
